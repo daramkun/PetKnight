@@ -29,10 +29,15 @@ public class AnimatableCharacter : MonoBehaviour
     private static readonly int Miss = Animator.StringToHash("Miss");
 
     private Animator animator;
+    public bool HasMiss { get; private set; }
+    public bool HasAttack2 { get; private set; }
 
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
+
+        HasMiss = animator.HasState(0, Miss);
+        HasAttack2 = animator.HasState(0, Attack2);
     }
 
     public AnimationType Animation

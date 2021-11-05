@@ -47,6 +47,18 @@ public class GameScene : SingletonBehaviour<GameScene>
                     stage.marqueeOn = false;
                 StartCoroutine(MonsterSummonState());
                 break;
+
+            case GameState.PlayerAttackPhase:
+                break;
+
+            case GameState.MonsterAttackPhase:
+                break;
+
+            case GameState.Ceremony:
+                break;
+
+            case GameState.GameOver:
+                break;
         }
     }
 
@@ -75,6 +87,7 @@ public class GameScene : SingletonBehaviour<GameScene>
         var choosedMonster = Probability.GetEqualProbability(choosedMonsters);
 
         choosedMonster.gameObject.SetActive(true);
+        choosedMonster.Initialize();
         choosedMonster.ChangeAnimation(AnimationType.Walking);
 
         var startTime = Time.realtimeSinceStartup;
@@ -98,5 +111,17 @@ public class GameScene : SingletonBehaviour<GameScene>
         choosedMonster.ChangeAnimation(AnimationType.Idle);
 
         ChangeState(GameState.PlayerAttackPhase);
+    }
+
+    private IEnumerator PlayerAttackPhaseState()
+    {
+        player.ChangeAnimation(AnimationType.Attack);
+
+        yield break;
+    }
+
+    private IEnumerator MonsterAttackPhaseState()
+    {
+        yield break;
     }
 }

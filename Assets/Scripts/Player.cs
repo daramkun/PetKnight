@@ -28,6 +28,7 @@ public class Player : AnimatableCharacter
     private int mp;
     private int maxMp;
     private long gold;
+    private int exp;
 
     public PlayerPointEvent PlayerHpChanged = new PlayerPointEvent();
     public PlayerPointEvent PlayerMpChanged = new PlayerPointEvent();
@@ -39,6 +40,9 @@ public class Player : AnimatableCharacter
     public int MaxHp => maxHp;
     public int MaxMp => maxMp;
     public long Gold => gold;
+    public int Exp => exp;
+
+    public int AttackPoint => Mathf.Clamp(Mathf.RoundToInt(Mathf.Log10(level) * 10), 1, 10000);
 
     protected override void Awake()
     {
@@ -81,5 +85,22 @@ public class Player : AnimatableCharacter
     {
         mp = (int)Mathf.Clamp(mp + unit, 0, maxMp);
         PlayerMpChanged.Invoke(mp / (float)maxMp);
+    }
+
+    public bool SetExp(int amount)
+    {
+        exp += amount;
+        if (CalculateNextLevelupExpPoint(level + 1) >= exp)
+        {
+            ++level;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static int CalculateNextLevelupExpPoint(int level)
+    {
+        return Mathf.Clamp(Mathf.RoundToInt(Mathf.Log10(level) * (level * 100)), 100, int.MaxValue);
     }
 }

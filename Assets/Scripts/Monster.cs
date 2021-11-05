@@ -13,8 +13,15 @@ public class Monster : AnimatableCharacter
 
     public int BlockedLevel => blockedLevel;
 
+    public int Hp { get; set; }
+
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public void Initialize()
+    {
+        Hp = hp;
     }
 }
