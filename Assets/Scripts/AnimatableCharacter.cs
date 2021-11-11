@@ -46,20 +46,31 @@ public class AnimatableCharacter : MonoBehaviour
         {
             var nameHash = animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
 
-            if (nameHash == Idle) return AnimationType.Idle;
-            if (nameHash == Walking) return AnimationType.Walking;
-            if (nameHash == Dead) return AnimationType.Dead;
-            if (nameHash == Attack1) return AnimationType.Attack;
-            if (nameHash == Attack2) return AnimationType.Attack2;
-            if (nameHash == Hit) return AnimationType.Hit;
-            if (nameHash == Miss) return AnimationType.Miss;
+            var returnValue = (AnimationType)(-1);
+            if (nameHash == Idle)
+                returnValue = AnimationType.Idle;
+            else if (nameHash == Walking)
+                returnValue = AnimationType.Walking;
+            else if (nameHash == Dead)
+                returnValue = AnimationType.Dead;
+            else if (nameHash == Attack1)
+                returnValue = AnimationType.Attack;
+            else if (nameHash == Attack2)
+                returnValue = AnimationType.Attack2;
+            else if (nameHash == Hit)
+                returnValue = AnimationType.Hit;
+            else if (nameHash == Miss)
+                returnValue = AnimationType.Miss;
 
-            return (AnimationType)(-1);
+            Debug.LogFormat("Get Animation: {0}", returnValue);
+
+            return returnValue;
         }
     }
 
     public void ChangeAnimation(AnimationType type)
     {
+        Debug.LogFormat("Change Animation: {0}", type);
         switch (type)
         {
             case AnimationType.Idle:

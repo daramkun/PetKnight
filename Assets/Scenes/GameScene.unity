@@ -151,8 +151,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470270676}
-  - {fileID: 1382928936}
   - {fileID: 880624634}
+  - {fileID: 1382928936}
   - {fileID: 576560711}
   m_Father: {fileID: 1186411583}
   m_RootOrder: 2
@@ -320,6 +320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 380306892}
+  - component: {fileID: 380306893}
   m_Layer: 0
   m_Name: DamageTexts
   m_TagString: Untagged
@@ -346,6 +347,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &380306893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380306891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad502540eb02464bb33f1885b609142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 909838834235113761, guid: d7c4fa7e106fada4ebfd1e7cb499a9a0, type: 3}
 --- !u!1 &419577284
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +418,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 194782363}
     m_Modifications:
+    - target: {fileID: -6632619103694156908, guid: fa498a090c83eba47bb2f7daab08da75, type: 3}
+      propertyPath: hp
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6632619103694156908, guid: fa498a090c83eba47bb2f7daab08da75, type: 3}
+      propertyPath: attackPoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3237516250436229120, guid: fa498a090c83eba47bb2f7daab08da75, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -667,6 +689,10 @@ PrefabInstance:
     - target: {fileID: 2233022300969630705, guid: c0e29e84708f98b40a8ae69c53a797c1, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460084905876265725, guid: c0e29e84708f98b40a8ae69c53a797c1, type: 3}
+      propertyPath: attackPoint
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e29e84708f98b40a8ae69c53a797c1, type: 3}
@@ -1224,6 +1250,7 @@ MonoBehaviour:
   - {fileID: 470270677}
   - {fileID: 1382928937}
   - {fileID: 576560712}
+  damageTextPool: {fileID: 380306893}
 --- !u!4 &1270718515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3663470983079242717, guid: 0f3b63cc28c84774f86b50858ee5b66d, type: 3}
@@ -1358,7 +1385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8023703364930904989, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8023703364930904989, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1399,6 +1426,10 @@ PrefabInstance:
     - target: {fileID: 8023703364930904989, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023703364930904990, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
+      propertyPath: attackPoint
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
@@ -1581,7 +1612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2025,7 +2056,7 @@ MonoBehaviour:
   m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
-  m_Elasticity: 0.1
+  m_Elasticity: 0.03
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
@@ -2884,9 +2915,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 194782363}
     m_Modifications:
+    - target: {fileID: 5812334378831717418, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
+      propertyPath: attackPoint
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5812334378831717421, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5812334378831717421, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
       propertyPath: m_LocalPosition.x

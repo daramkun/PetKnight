@@ -9,4 +9,9 @@ public static class Probability
         var value = Mathf.RoundToInt(Random.value * (collection.Count() - 1));
         return collection.ElementAt(value);
     }
+
+    public static bool IsMissed()
+    {
+        return Random.value > 0.75f;
+    }
 }

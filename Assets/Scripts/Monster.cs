@@ -5,15 +5,18 @@ using UnityEngine;
 public class Monster : AnimatableCharacter
 {
     [SerializeField]
-    private int hp = 20;
+    private int hp = 5;
     [SerializeField]
     private int blockedLevel = 0;
     [SerializeField]
     private int gainExp = 10;
+    [SerializeField]
+    private int attackPoint = 1;
 
     public int BlockedLevel => blockedLevel;
 
     public int Hp { get; set; }
+    public int AttackPoint => attackPoint;
 
     protected override void Awake()
     {

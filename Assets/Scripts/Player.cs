@@ -50,7 +50,7 @@ public class Player : AnimatableCharacter
 
         level = 1;
 
-        hp = maxHp = 40;
+        hp = maxHp = 20;
         mp = maxMp = 10;
     }
 
@@ -67,12 +67,6 @@ public class Player : AnimatableCharacter
     {
         hp = (int)Mathf.Clamp(hp + unit, 0, maxHp);
         PlayerHpChanged.Invoke(hp / (float)maxHp);
-
-        // Game Over
-        if (hp == 0)
-        {
-
-        }
     }
 
     public void SetGold(int amount)

@@ -16,6 +16,11 @@ public class GameScene : SingletonBehaviour<GameScene>
     [SerializeField]
     private Monster[] monsters;
 
+    private Monster currentMonster;
+
+    [SerializeField]
+    private ObjectPool damageTextPool;
+
     void Awake()
     {
         currentStage = Stage.None;
@@ -38,6 +43,8 @@ public class GameScene : SingletonBehaviour<GameScene>
         switch (gameState)
         {
             case GameState.Explore:
+                foreach (var stage in stages)
+                    stage.marqueeOn = true;
                 StartCoroutine(WalkingState());
                 break;
 
@@ -49,12 +56,15 @@ public class GameScene : SingletonBehaviour<GameScene>
                 break;
 
             case GameState.PlayerAttackPhase:
+                StartCoroutine(PlayerAttackPhaseState());
                 break;
 
             case GameState.MonsterAttackPhase:
+                StartCoroutine(MonsterAttackPhaseState());
                 break;
 
             case GameState.Ceremony:
+                StartCoroutine(CeremonyState());
                 break;
 
             case GameState.GameOver:
@@ -85,6 +95,7 @@ public class GameScene : SingletonBehaviour<GameScene>
     {
         var choosedMonsters = monsters.Where(monster => player.Level >= monster.BlockedLevel);
         var choosedMonster = Probability.GetEqualProbability(choosedMonsters);
+        currentMonster = choosedMonster;
 
         choosedMonster.gameObject.SetActive(true);
         choosedMonster.Initialize();
@@ -117,11 +128,92 @@ public class GameScene : SingletonBehaviour<GameScene>
     {
         player.ChangeAnimation(AnimationType.Attack);
 
-        yield break;
+        while (player.Animation == AnimationType.Attack)
+            yield return null;
+
+        var missed = false;
+        if (currentMonster.HasMiss)
+        {
+            missed = Probability.IsMissed();
+            if (missed)
+            {
+                var damageText = damageTextPool.Pop();
+                damageText.GetComponent<DamageText>().StartAnimation(currentMonster.gameObject, "MISSED", Color.yellow);
+
+                currentMonster.ChangeAnimation(AnimationType.Miss);
+                while (currentMonster.Animation == AnimationType.Miss)
+                    yield return null;
+            }
+        }
+
+        if (!missed)
+        {
+            var damageText = damageTextPool.Pop();
+            damageText.GetComponent<DamageText>().StartAnimation(currentMonster.gameObject, player.AttackPoint.ToString(), Color.red);
+            currentMonster.Hp -= player.AttackPoint;
+
+            currentMonster.ChangeAnimation(AnimationType.Hit);
+            while (currentMonster.Animation == AnimationType.Hit)
+                yield return null;
+        }
+
+        yield return CachedWaitFor.GetWaitForSeconds(1);
+
+        ChangeState(currentMonster.Hp == 0
+                        ? GameState.Ceremony
+                        : GameState.MonsterAttackPhase);
     }
 
     private IEnumerator MonsterAttackPhaseState()
     {
+        currentMonster.ChangeAnimation(AnimationType.Attack);
+
+        while (currentMonster.Animation == AnimationType.Attack)
+            yield return null;
+
+        var missed = Probability.IsMissed();
+        if (missed)
+        {
+            var damageText = damageTextPool.Pop();
+            damageText.GetComponent<DamageText>().StartAnimation(player.gameObject, "MISSED", Color.yellow);
+
+            player.ChangeAnimation(AnimationType.Miss);
+            while (player.Animation == AnimationType.Miss)
+                yield return null;
+        }
+        else
+        {
+            var damageText = damageTextPool.Pop();
+            damageText.GetComponent<DamageText>().StartAnimation(player.gameObject, currentMonster.AttackPoint.ToString(), Color.red);
+            player.SetHp(-currentMonster.AttackPoint);
+
+            player.ChangeAnimation(AnimationType.Hit);
+            while (player.Animation == AnimationType.Hit)
+                yield return null;
+        }
+
+        yield return CachedWaitFor.GetWaitForSeconds(1);
+
+        ChangeState(player.Hp == 0
+                        ? GameState.GameOver
+                        : GameState.PlayerAttackPhase);
+    }
+
+    private IEnumerator CeremonyState()
+    {
+        currentMonster.ChangeAnimation(AnimationType.Dead);
+        yield return CachedWaitFor.GetWaitForSeconds(1);
+
+        currentMonster.gameObject.SetActive(false);
+        currentMonster = null;
+
+        ChangeState(GameState.Explore);
         yield break;
+    }
+
+    private IEnumerator GameOverState()
+    {
+        player.ChangeAnimation(AnimationType.Dead);
+        yield return CachedWaitFor.GetWaitForSeconds(1);
     }
 }
