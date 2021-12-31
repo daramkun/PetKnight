@@ -159,7 +159,7 @@ public class GameScene : SingletonBehaviour<GameScene>
 
         yield return CachedWaitFor.GetWaitForSeconds(1);
 
-        ChangeState(currentMonster.Hp == 0
+        ChangeState(currentMonster.Hp <= 0
                         ? GameState.Ceremony
                         : GameState.MonsterAttackPhase);
     }
@@ -194,7 +194,7 @@ public class GameScene : SingletonBehaviour<GameScene>
 
         yield return CachedWaitFor.GetWaitForSeconds(1);
 
-        ChangeState(player.Hp == 0
+        ChangeState(player.Hp <= 0
                         ? GameState.GameOver
                         : GameState.PlayerAttackPhase);
     }
@@ -203,6 +203,9 @@ public class GameScene : SingletonBehaviour<GameScene>
     {
         currentMonster.ChangeAnimation(AnimationType.Dead);
         yield return CachedWaitFor.GetWaitForSeconds(1);
+
+        player.SetExp(currentMonster.GainExp);
+        player.SetGold(currentMonster.GainGold);
 
         currentMonster.gameObject.SetActive(false);
         currentMonster = null;
