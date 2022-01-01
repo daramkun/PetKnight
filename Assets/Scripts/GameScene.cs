@@ -204,8 +204,15 @@ public class GameScene : SingletonBehaviour<GameScene>
         currentMonster.ChangeAnimation(AnimationType.Dead);
         yield return CachedWaitFor.GetWaitForSeconds(1);
 
-        player.SetExp(currentMonster.GainExp);
         player.SetGold(currentMonster.GainGold);
+
+        if (player.SetExp(currentMonster.GainExp))
+        {
+            var damageText = damageTextPool.Pop();
+            damageText.GetComponent<DamageText>().StartAnimation(player.gameObject, "Lv UP!", Color.green);
+
+            yield return CachedWaitFor.GetWaitForSeconds(1);
+        }
 
         currentMonster.gameObject.SetActive(false);
         currentMonster = null;

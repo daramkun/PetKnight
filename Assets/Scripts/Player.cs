@@ -49,6 +49,7 @@ public class Player : AnimatableCharacter
         base.Awake();
 
         level = 1;
+        exp = 0;
 
         hp = maxHp = 20;
         mp = maxMp = 10;
@@ -83,14 +84,18 @@ public class Player : AnimatableCharacter
 
     public bool SetExp(int amount)
     {
+        var prevLevel = level;
         exp += amount;
-        if (CalculateNextLevelupExpPoint(level + 1) >= exp)
+        int nextLvExp;
+        while ((nextLvExp = CalculateNextLevelupExpPoint(level + 1)) <= exp)
         {
             ++level;
-            return true;
+            exp -= nextLvExp;
         }
+        
+        Debug.LogFormat("Level Up: {0}, Exp: {1}, Amount: {2}", level, exp, amount);
 
-        return false;
+        return level != prevLevel;
     }
 
     private static int CalculateNextLevelupExpPoint(int level)

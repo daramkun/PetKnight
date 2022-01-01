@@ -197,8 +197,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12.4, y: 0}
-  m_SizeDelta: {x: 186.64, y: 25.2}
+  m_AnchoredPosition: {x: 10.71, y: 0}
+  m_SizeDelta: {x: 182.6, y: 25.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &238492075
 MonoBehaviour:
@@ -689,6 +689,10 @@ PrefabInstance:
     - target: {fileID: 2233022300969630705, guid: c0e29e84708f98b40a8ae69c53a797c1, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460084905876265725, guid: c0e29e84708f98b40a8ae69c53a797c1, type: 3}
+      propertyPath: gainGold
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3460084905876265725, guid: c0e29e84708f98b40a8ae69c53a797c1, type: 3}
       propertyPath: attackPoint
@@ -1428,8 +1432,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8023703364930904990, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
+      propertyPath: gainGold
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023703364930904990, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
       propertyPath: attackPoint
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023703364930904990, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
+      propertyPath: blockedLevel
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bda829bb73660842af2cfb5aaa789b9, type: 3}
@@ -2916,8 +2928,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 194782363}
     m_Modifications:
     - target: {fileID: 5812334378831717418, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
+      propertyPath: gainGold
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5812334378831717418, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
       propertyPath: attackPoint
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5812334378831717418, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
+      propertyPath: blockedLevel
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5812334378831717421, guid: 6d6b959e7088035499c3ca4a9c010160, type: 3}
       propertyPath: m_RootOrder
