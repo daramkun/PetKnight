@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameScene : SingletonBehaviour<GameScene>
 {
@@ -20,6 +21,9 @@ public class GameScene : SingletonBehaviour<GameScene>
 
     [SerializeField]
     private ObjectPool _damageTextPool;
+
+    [SerializeField]
+    private GameObject _gameOverText;
 
     void Awake()
     {
@@ -236,6 +240,10 @@ public class GameScene : SingletonBehaviour<GameScene>
     private IEnumerator GameOverState()
     {
         _player.ChangeAnimation(AnimationType.Dead);
+        _gameOverText.SetActive(true);
+        
         yield return CachedWaitFor.GetWaitForSeconds(1);
+
+        SceneManager.LoadScene("MenuScene");
     }
 }
