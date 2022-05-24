@@ -7,13 +7,13 @@ using UnityEngine;
 public class GoldInspector : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI text;
+    private TextMeshProUGUI _text;
 
     [SerializeField]
-    private float speed = 2;
-    private long currentAmount = 0;
+    private float _speed = 2;
+    private long _currentAmount = 0;
 
-    private Coroutine animationCoroutine;
+    private Coroutine _animationCoroutine;
 
     void Awake()
     {
@@ -22,32 +22,32 @@ public class GoldInspector : MonoBehaviour
 
     public void SetAmount(long gold)
     {
-        if (currentAmount == gold)
+        if (_currentAmount == gold)
             return;
 
-        if (animationCoroutine != null)
-            StopCoroutine(animationCoroutine);
-        animationCoroutine = StartCoroutine(AmountChangeAnimation(gold));
+        if (_animationCoroutine != null)
+            StopCoroutine(_animationCoroutine);
+        _animationCoroutine = StartCoroutine(AmountChangeAnimation(gold));
     }
 
     private IEnumerator AmountChangeAnimation(long gold)
     {
         var startTime = Time.realtimeSinceStartup;
-        var startingAmount = currentAmount;
-        while ((Time.realtimeSinceStartup - startTime) * speed < 1)
+        var startingAmount = _currentAmount;
+        while ((Time.realtimeSinceStartup - startTime) * _speed < 1)
         {
-            var temp = (double)(Time.realtimeSinceStartup - startTime) * speed;
+            var temp = (double)(Time.realtimeSinceStartup - startTime) * _speed;
             var animationAmount = (startingAmount - gold) * temp;
 
-            currentAmount = (long)(startingAmount - animationAmount);
-            text.text = $"{currentAmount:n0}";
+            _currentAmount = (long)(startingAmount - animationAmount);
+            _text.text = $"{_currentAmount:n0}";
 
             yield return null;
         }
 
-        currentAmount = gold;
-        text.text = $"{gold:n0}";
+        _currentAmount = gold;
+        _text.text = $"{gold:n0}";
 
-        animationCoroutine = null;
+        _animationCoroutine = null;
     }
 }

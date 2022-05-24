@@ -7,36 +7,36 @@ public class StageMarquee : MonoBehaviour
     private static readonly int Offset = Shader.PropertyToID("_Offset");
 
     [SerializeField]
-    private SpriteRenderer[] stageElements;
+    private SpriteRenderer[] _stageElements;
     [SerializeField]
-    private bool[] stageElementsMustMarquees;
+    private bool[] _stageElementsMustMarquees;
     [SerializeField]
-    private bool frontStageBackmasking = false;
+    private bool _frontStageBackmasking = false;
 
-    public bool marqueeOn = true;
+    public bool _marqueeOn = true;
 
-    private MaterialPropertyBlock[] propertyBlocks;
+    private MaterialPropertyBlock[] _propertyBlocks;
 
     void Awake()
     {
-        propertyBlocks = new MaterialPropertyBlock[stageElements.Length];
-        for (var i = 0; i < stageElements.Length; ++i)
+        _propertyBlocks = new MaterialPropertyBlock[_stageElements.Length];
+        for (var i = 0; i < _stageElements.Length; ++i)
         {
             var propertyBlock = new MaterialPropertyBlock();
-            stageElements[i].GetPropertyBlock(propertyBlock);
-            propertyBlocks[i] = propertyBlock;
+            _stageElements[i].GetPropertyBlock(propertyBlock);
+            _propertyBlocks[i] = propertyBlock;
         }
     }
 
     void Update()
     {
         var moveUnit = 0.1f;
-        for (var i = stageElements.Length - 1; i >= 0; --i)
+        for (var i = _stageElements.Length - 1; i >= 0; --i)
         {
             var innerMoveUnit = moveUnit;
-            if (stageElements[i].sortingLayerName == "Front Stage")
+            if (_stageElements[i].sortingLayerName == "Front Stage")
             {
-                if (frontStageBackmasking)
+                if (_frontStageBackmasking)
                     innerMoveUnit = (moveUnit - 0.025f) * Time.deltaTime;
                 else
                     innerMoveUnit = (moveUnit - 0.025f) * Time.deltaTime;
@@ -47,16 +47,16 @@ public class StageMarquee : MonoBehaviour
                 moveUnit += 0.025f;
             }
 
-            if (!marqueeOn && !stageElementsMustMarquees[i])
+            if (!_marqueeOn && !_stageElementsMustMarquees[i])
                 continue;
 
-            var material = stageElements[i].material;
-            var offset = propertyBlocks[i].GetFloat(Offset) + innerMoveUnit;
+            var material = _stageElements[i].material;
+            var offset = _propertyBlocks[i].GetFloat(Offset) + innerMoveUnit;
             if (offset > 1) offset -= 1;
             if (offset < 0) offset += 1;
-            propertyBlocks[i].SetFloat(Offset, offset);
+            _propertyBlocks[i].SetFloat(Offset, offset);
 
-            stageElements[i].SetPropertyBlock(propertyBlocks[i]);
+            _stageElements[i].SetPropertyBlock(_propertyBlocks[i]);
         }
     }
 }

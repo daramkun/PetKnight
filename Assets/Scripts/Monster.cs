@@ -5,23 +5,23 @@ using UnityEngine;
 public class Monster : AnimatableCharacter
 {
     [SerializeField]
-    private int hp = 5;
+    private int _hp = 5;
     [SerializeField]
-    private int blockedLevel = 0;
+    private int _blockedLevel = 0;
     [SerializeField]
-    private int gainExp = 10;
+    private int _gainExp = 10;
     [SerializeField]
-    private int gainGold = 5;
+    private int _gainGold = 5;
     [SerializeField]
-    private int attackPoint = 1;
+    private int _attackPoint = 1;
 
-    public int BlockedLevel => blockedLevel;
+    public int BlockedLevel => _blockedLevel;
 
     public int Hp { get; set; }
-    public int AttackPoint => attackPoint;
+    public int AttackPoint => _attackPoint;
 
-    public int GainExp => gainExp;
-    public int GainGold => gainGold;
+    public int GainExp => _gainExp;
+    public int GainGold => _gainGold;
 
     protected override void Awake()
     {
@@ -30,6 +30,6 @@ public class Monster : AnimatableCharacter
 
     public void Initialize()
     {
-        Hp = hp;
+        Hp = _hp;
     }
 }

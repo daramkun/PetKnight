@@ -6,21 +6,21 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraWidthFixer : MonoBehaviour
 {
-    private Size lastWindowSize;
+    private Size _lastWindowSize;
 
     void Awake()
     {
         UpdateCamera();
-        lastWindowSize = new Size(Screen.width, Screen.height);
+        _lastWindowSize = new Size(Screen.width, Screen.height);
     }
 
     void Update()
     {
         var currentWindowSize = new Size(Screen.width, Screen.height);
-        if (lastWindowSize != currentWindowSize)
+        if (_lastWindowSize != currentWindowSize)
         {
             UpdateCamera();
-            lastWindowSize = currentWindowSize;
+            _lastWindowSize = currentWindowSize;
         }
     }
 

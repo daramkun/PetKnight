@@ -2,15 +2,15 @@
 
 public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Object
 {
-    private static T instance;
+    private static T _instance;
 
     public static T Instance
     {
         get
         {
-            if (instance == null)
-                instance = Object.FindObjectOfType<T>();
-            return instance;
+            if (_instance == null)
+                _instance = Object.FindObjectOfType<T>();
+            return _instance;
         }
     }
 }

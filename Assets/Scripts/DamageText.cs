@@ -6,32 +6,32 @@ using UnityEngine;
 public class DamageText : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshPro text;
+    private TextMeshPro _text;
 
-    private ObjectPool objectPool;
-    private Coroutine animationCoroutine;
+    private ObjectPool _objectPool;
+    private Coroutine _animationCoroutine;
 
     void Awake()
     {
-        objectPool = GetComponentInParent<ObjectPool>();
+        _objectPool = GetComponentInParent<ObjectPool>();
     }
 
     public void StartAnimation(GameObject target, string i, Color color)
     {
-        text.text = i;
-        text.color = color;
+        _text.text = i;
+        _text.color = color;
 
         transform.position = target.transform.position + new Vector3(0, 1, 0);
 
-        animationCoroutine = StartCoroutine(DamageTextAnimation());
+        _animationCoroutine = StartCoroutine(DamageTextAnimation());
     }
 
     void OnDisable()
     {
-        if (animationCoroutine != null)
+        if (_animationCoroutine != null)
         {
-            StopCoroutine(animationCoroutine);
-            animationCoroutine = null;
+            StopCoroutine(_animationCoroutine);
+            _animationCoroutine = null;
         }
     }
 
@@ -45,6 +45,6 @@ public class DamageText : MonoBehaviour
             transform.position = startPosition + new Vector3(0, temp, 0);
             yield return null;
         }
-        objectPool.Push(gameObject);
+        _objectPool.Push(gameObject);
     }
 }

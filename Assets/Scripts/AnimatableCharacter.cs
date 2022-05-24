@@ -28,23 +28,24 @@ public class AnimatableCharacter : MonoBehaviour
     private static readonly int Hit = Animator.StringToHash("Hit");
     private static readonly int Miss = Animator.StringToHash("Miss");
 
-    private Animator animator;
+    private Animator _animator;
+    
     public bool HasMiss { get; private set; }
     public bool HasAttack2 { get; private set; }
 
     protected virtual void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
 
-        HasMiss = animator.HasState(0, Miss);
-        HasAttack2 = animator.HasState(0, Attack2);
+        HasMiss = _animator.HasState(0, Miss);
+        HasAttack2 = _animator.HasState(0, Attack2);
     }
 
     public AnimationType Animation
     {
         get
         {
-            var nameHash = animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+            var nameHash = _animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
 
             var returnValue = (AnimationType)(-1);
             if (nameHash == Idle)
@@ -74,43 +75,43 @@ public class AnimatableCharacter : MonoBehaviour
         switch (type)
         {
             case AnimationType.Idle:
-                animator.SetBool(IsWalking, false);
-                animator.SetBool(IsDead, false);
-                animator.Play(Idle);
+                _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsDead, false);
+                _animator.Play(Idle);
                 break;
 
             case AnimationType.Walking:
-                animator.SetBool(IsWalking, true);
-                animator.SetBool(IsDead, false);
+                _animator.SetBool(IsWalking, true);
+                _animator.SetBool(IsDead, false);
                 break;
 
             case AnimationType.Dead:
-                animator.SetBool(IsWalking, false);
-                animator.SetBool(IsDead, true);
+                _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsDead, true);
                 break;
 
             case AnimationType.Attack:
-                animator.SetBool(IsWalking, false);
-                animator.SetBool(IsDead, false);
-                animator.Play(Attack1);
+                _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsDead, false);
+                _animator.Play(Attack1);
                 break;
 
             case AnimationType.Attack2:
-                animator.SetBool(IsWalking, false);
-                animator.SetBool(IsDead, false);
-                animator.Play(Attack2);
+                _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsDead, false);
+                _animator.Play(Attack2);
                 break;
 
             case AnimationType.Hit:
-                animator.SetBool(IsWalking, false);
-                animator.SetBool(IsDead, false);
-                animator.Play(Hit);
+                _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsDead, false);
+                _animator.Play(Hit);
                 break;
 
             case AnimationType.Miss:
-                animator.SetBool(IsWalking, false);
-                animator.SetBool(IsDead, false);
-                animator.Play(Miss);
+                _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsDead, false);
+                _animator.Play(Miss);
                 break;
 
             default:

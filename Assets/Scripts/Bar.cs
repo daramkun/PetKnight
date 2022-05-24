@@ -7,15 +7,15 @@ using UnityEngine.UI;
 public class Bar : MonoBehaviour
 {
     [SerializeField]
-    private Image background;
+    private Image _background;
     [SerializeField]
-    private Image bar;
+    private Image _bar;
 
     [SerializeField]
-    private float speed = 2;
-    private float currentAmount = 1;
+    private float _speed = 2;
+    private float _currentAmount = 1;
 
-    private Coroutine animationCoroutine;
+    private Coroutine _animationCoroutine;
 
     void Awake()
     {
@@ -24,35 +24,35 @@ public class Bar : MonoBehaviour
 
     public void SetAmount(float amount)
     {
-        if (Math.Abs(currentAmount - amount) < float.Epsilon)
+        if (Math.Abs(_currentAmount - amount) < float.Epsilon)
             return;
 
-        if (animationCoroutine != null)
-            StopCoroutine(animationCoroutine);
-        animationCoroutine = StartCoroutine(AmountChangeAnimation(amount));
+        if (_animationCoroutine != null)
+            StopCoroutine(_animationCoroutine);
+        _animationCoroutine = StartCoroutine(AmountChangeAnimation(amount));
     }
 
     private IEnumerator AmountChangeAnimation(float amount)
     {
         var startTime = Time.realtimeSinceStartup;
-        var startingAmount = currentAmount;
-        while ((Time.realtimeSinceStartup - startTime) * speed < 1)
+        var startingAmount = _currentAmount;
+        while ((Time.realtimeSinceStartup - startTime) * _speed < 1)
         {
-            var temp = (Time.realtimeSinceStartup - startTime) * speed;
+            var temp = (Time.realtimeSinceStartup - startTime) * _speed;
             var animationAmount = (startingAmount - amount) * temp;
 
-            currentAmount = startingAmount - animationAmount;
-            bar.rectTransform.sizeDelta =
-                new Vector2(background.rectTransform.rect.width * currentAmount,
-                            bar.rectTransform.sizeDelta.y);
+            _currentAmount = startingAmount - animationAmount;
+            _bar.rectTransform.sizeDelta =
+                new Vector2(_background.rectTransform.rect.width * _currentAmount,
+                            _bar.rectTransform.sizeDelta.y);
 
             yield return null;
         }
 
-        currentAmount = amount;
-        bar.rectTransform.sizeDelta =
-            new Vector2(background.rectTransform.rect.width * amount, bar.rectTransform.sizeDelta.y);
+        _currentAmount = amount;
+        _bar.rectTransform.sizeDelta =
+            new Vector2(_background.rectTransform.rect.width * amount, _bar.rectTransform.sizeDelta.y);
 
-        animationCoroutine = null;
+        _animationCoroutine = null;
     }
 }

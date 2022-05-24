@@ -5,38 +5,38 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    private readonly List<GameObject> createdObjects = new List<GameObject>();
-    private readonly Queue<GameObject> pooledObjects = new Queue<GameObject>();
+    private readonly List<GameObject> _createdObjects = new List<GameObject>();
+    private readonly Queue<GameObject> _pooledObjects = new Queue<GameObject>();
 
     [SerializeField]
-    private GameObject prefab;
+    private GameObject _prefab;
 
     void Awake()
     {
-        if (prefab == null)
+        if (_prefab == null)
             throw new InvalidOperationException();
     }
 
     public GameObject Pop()
     {
-        if (pooledObjects.Count == 0)
+        if (_pooledObjects.Count == 0)
         {
-            var createdObject = Instantiate(prefab, transform);
-            createdObjects.Add(createdObject);
+            var createdObject = Instantiate(_prefab, transform);
+            _createdObjects.Add(createdObject);
             return createdObject;
         }
 
-        var poppedObject = pooledObjects.Dequeue();
+        var poppedObject = _pooledObjects.Dequeue();
         poppedObject.SetActive(true);
         return poppedObject;
     }
 
     public void Push(GameObject gameObject)
     {
-        if (!createdObjects.Contains(gameObject))
+        if (!_createdObjects.Contains(gameObject))
             throw new ArgumentException(null, nameof(gameObject));
 
-        pooledObjects.Enqueue(gameObject);
+        _pooledObjects.Enqueue(gameObject);
         gameObject.SetActive(false);
     }
 }

@@ -6,21 +6,21 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class SceneContainer : MonoBehaviour
 {
-    private Size lastWindowSize;
+    private Size _lastWindowSize;
 
     void Awake()
     {
         UpdateContainerSize();
-        lastWindowSize = new Size(Screen.width, Screen.height);
+        _lastWindowSize = new Size(Screen.width, Screen.height);
     }
 
     void Update()
     {
         var currentWindowSize = new Size(Screen.width, Screen.height);
-        if (lastWindowSize != currentWindowSize)
+        if (_lastWindowSize != currentWindowSize)
         {
             UpdateContainerSize();
-            lastWindowSize = currentWindowSize;
+            _lastWindowSize = currentWindowSize;
         }
     }
 
