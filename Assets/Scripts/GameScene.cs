@@ -242,7 +242,7 @@ public class GameScene : SingletonBehaviour<GameScene>
         _player.ChangeAnimation(AnimationType.Dead);
         _gameOverText.SetActive(true);
         
-        yield return CachedWaitFor.GetWaitForSeconds(1);
+        yield return CachedWaitFor.GetWaitForSeconds(3);
 
         SceneManager.LoadScene("MenuScene");
     }
