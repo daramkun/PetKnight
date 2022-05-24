@@ -25,6 +25,9 @@ public class GameScene : SingletonBehaviour<GameScene>
     [SerializeField]
     private GameObject _gameOverText;
 
+    [SerializeField]
+    private SfxPlayer _sfxPlayer;
+
     void Awake()
     {
         _currentStage = Stage.None;
@@ -116,6 +119,7 @@ public class GameScene : SingletonBehaviour<GameScene>
         choosedMonster.gameObject.SetActive(true);
         choosedMonster.Initialize();
         choosedMonster.ChangeAnimation(AnimationType.Walking);
+        _sfxPlayer.Play(Constants.AudioWarning);
 
         var startTime = Time.realtimeSinceStartup;
         var startingPosition = new Vector3(0.94f * 2, -1.26f, 0);
@@ -157,6 +161,7 @@ public class GameScene : SingletonBehaviour<GameScene>
                 damageText.GetComponent<DamageText>().StartAnimation(_currentMonster.gameObject, "MISSED", Color.yellow);
 
                 _currentMonster.ChangeAnimation(AnimationType.Miss);
+                _sfxPlayer.Play(Constants.AudioMiss);
                 while (_currentMonster.Animation == AnimationType.Miss)
                     yield return null;
             }
@@ -169,6 +174,7 @@ public class GameScene : SingletonBehaviour<GameScene>
             _currentMonster.Hp -= _player.AttackPoint;
 
             _currentMonster.ChangeAnimation(AnimationType.Hit);
+            _sfxPlayer.Play(Constants.AudioHitFromPlayer);
             while (_currentMonster.Animation == AnimationType.Hit)
                 yield return null;
         }
@@ -194,6 +200,7 @@ public class GameScene : SingletonBehaviour<GameScene>
             damageText.GetComponent<DamageText>().StartAnimation(_player.gameObject, "MISSED", Color.yellow);
 
             _player.ChangeAnimation(AnimationType.Miss);
+            _sfxPlayer.Play(Constants.AudioMiss);
             while (_player.Animation == AnimationType.Miss)
                 yield return null;
         }
@@ -204,6 +211,7 @@ public class GameScene : SingletonBehaviour<GameScene>
             _player.SetHp(-_currentMonster.AttackPoint);
 
             _player.ChangeAnimation(AnimationType.Hit);
+            _sfxPlayer.Play(Constants.AudioHitFromMonster);
             while (_player.Animation == AnimationType.Hit)
                 yield return null;
         }
@@ -218,6 +226,7 @@ public class GameScene : SingletonBehaviour<GameScene>
     private IEnumerator CeremonyState()
     {
         _currentMonster.ChangeAnimation(AnimationType.Dead);
+        _sfxPlayer.Play(Constants.AudioCeremony);
         yield return CachedWaitFor.GetWaitForSeconds(1);
 
         _player.SetGold(_currentMonster.GainGold);
@@ -240,6 +249,8 @@ public class GameScene : SingletonBehaviour<GameScene>
     private IEnumerator GameOverState()
     {
         _player.ChangeAnimation(AnimationType.Dead);
+        _sfxPlayer.Play(Constants.AudioDeadPlayer);
+        
         _gameOverText.SetActive(true);
         
         yield return CachedWaitFor.GetWaitForSeconds(3);
